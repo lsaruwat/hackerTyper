@@ -20,6 +20,7 @@
 
   <script type="text/javascript">
     var index = 0;
+    var speed = 5;
     var pad = document.getElementById("hackText");
     var hackText = `
 static inline signed int check_error(int return_value)
@@ -39,14 +40,30 @@ static inline signed int check_error(int return_value)
     return 0;
 }`
 
-function hack(e, speed){
-  var toAppend = hackText.substring(index, index+speed);
-  pad.innerHTML += toAppend;
-  index+=speed;
+function backTrack(){
+  if(index-speed/2 >= 0){
+    pad.innerHTML = pad.innerHTML.substring(0,index-speed/2);
+    index-=speed/2;
+  }
+
 }
 
-window.addEventListener("keypress", function(e){
-  hack(e, 5);
+function hack(e){
+
+  if(e.keyCode === 8) backTrack();//backspace
+  else if(hackText.length >= index+speed){
+    var toAppend = hackText.substring(index, index+speed);
+    pad.innerHTML += toAppend;
+    index+=speed;
+  }
+  else console.log("programming complete");
+}
+
+window.addEventListener("keydown", function(e){
+  if(!e.ctrlKey){
+    e.preventDefault();
+    hack(e);
+  }
 }, false);
 
   </script>
