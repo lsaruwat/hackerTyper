@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <title>html 101</title>
+    <style>
+    div{
+      margin: 0px auto;
+      width: 50%;
+    }
+
+    div.card{
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    div#hackPad{
+
+    }
+    </style>
+  </head>
+  <body>
+    <h1>This is a website</h1>
+    <div id="hackPad">
+      <pre id="hackText"></pre>
+    </div>
+
+  <script type="text/javascript">
+    var index = 0;
+    var pad = document.getElementById("hackText");
+    var hackText = `
+static inline signed int check_error(int return_value)
+{
+# ifdef VERBOSE
+    const char* errbuf;
+# endif
+    if ( return_value < 0 )
+    {
+# ifdef VERBOSE
+  errbuf = strerror(errno);
+  debug_write(errbuf);
+# endif
+  return -1;
+    }
+
+    return 0;
+}`
+
+function hack(e, speed){
+  var toAppend = hackText.substring(index, index+speed);
+  pad.innerHTML += toAppend;
+  index+=speed;
+}
+
+window.addEventListener("keypress", function(e){
+  hack(e, 5);
+}, false);
+
+  </script>
+  </body>
+</html>
